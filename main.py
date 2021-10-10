@@ -91,31 +91,40 @@ def findNumbers(buttons):
             findNumbers(temp)
 
 
-try:
+def setup():
     driver = initializeDriver()
     logger.info("successful: initialized chromedriver")
+
     driver.get(magicbricks_url)
     logger.info("successful: get magicbricks.com")
+
     buttons = driver.find_elements_by_xpath(
         "//button[@class='m-srp-card__btn m-srp-card__btn--primary-o get-phone-min-width']")
     if buttons:
         logger.info(f"successful: found {len(buttons)} buttons")
-    else:
-        raise Exception("unsuccessful: no buttons were found")
-except:
-    logger.exception("Something went wrong")
+        return (driver, buttons)
+    raise Exception("unsuccessful: no buttons were found")
 
 
-configured = False
-aim = 3
+aim = 125
 count = 0
-duration = 180
-findNumbers(buttons)
+duration = 65
+configured = False
+
+
+try:
+    driver, buttons = setup()
+    findNumbers(buttons)
+except:
+    logger.exception(
+        "Something went wrong in chromedriver setup or findNumbers()")
+    exit(0)
 
 
 logger.info(f"{count} Numbers collected")
 sendEmail(f"{count} Numbers collected (from mb.com)",
           "You would recieve an email containing numbers of the property owners soon.")
 logger.info(f"Email sent successfully ({count} Numbers collected)")
+
 time.sleep(20)
 driver.quit()
