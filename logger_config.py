@@ -6,8 +6,7 @@ from sendgrid.helpers.mail import Mail
 from pymongo import MongoClient
 
 
-u_format = logging.Formatter(
-    "[%(asctime)s]\t%(name)s | Line number - %(lineno)d | %(levelname)s | %(message)s")
+u_format = "[%(asctime)s]\t%(name)s | Line number - %(lineno)d | %(levelname)s | %(message)s"
 
 
 config = dotenv_values(".env")
@@ -34,7 +33,13 @@ except:
 
 
 def sendEmail(subject, body):
-    sg = sendgrid.SendGridAPIClient(sendgrid_apikey)
+    try:
+        sg = sendgrid.SendGridAPIClient(sendgrid_apikey)
+    except:
+        logging.basicConfig(filename="app.log",
+                            format=u_format, level=logging.INFO)
+        logging.critical(
+            "Connection to sendgrid api unsuccessful (maybe due to an improper api key)")
     message = Mail(
         from_email=email_id,
         to_emails=["hg242322@gmail.com"],
@@ -76,11 +81,14 @@ class MongoHandler(logging.StreamHandler):
 
 
 def configLogger(name, filename="app.log"):
+
+    u_format = logging.Formatter(
+        "[%(asctime)s]\t%(name)s | Line number - %(lineno)d | %(levelname)s | %(message)s")
+
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
     c_handler = logging.StreamHandler()
-
     f_handler = logging.FileHandler(filename)
     f_handler.setLevel(logging.INFO)
     email_handler = EmailHandler()
