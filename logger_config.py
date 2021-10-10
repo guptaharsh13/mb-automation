@@ -37,7 +37,7 @@ class EmailHandler(logging.StreamHandler):
     def emit(self, record):
         msg = self.format(record)
         msg.replace("\n", "<br>")
-        sendEmail(subject="Logs from mb automation script", body=msg)
+        sendEmail(subject="Logs from mb automation script", html=msg)
 
 
 class MongoHandler(logging.StreamHandler):
