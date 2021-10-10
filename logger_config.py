@@ -1,7 +1,8 @@
 import logging
-from dotenv import dotenv_values
-from mailer import sendEmail
 from datetime import datetime
+from dotenv import dotenv_values
+import sendgrid
+from sendgrid.helpers.mail import Mail
 from pymongo import MongoClient
 
 
@@ -12,7 +13,7 @@ u_format = logging.Formatter(
 config = dotenv_values(".env")
 try:
     email_id = config["email_id"]
-    password = config["password"]
+    sendgrid_apikey = config["sendgrid_apikey"]
     mongodb_url = config["mongodb_url"]
 except:
     logging.basicConfig(
@@ -32,12 +33,34 @@ except:
     exit(0)
 
 
+def sendEmail(subject, body):
+    sg = sendgrid.SendGridAPIClient(sendgrid_apikey)
+    message = Mail(
+        from_email=email_id,
+        to_emails=["mail2bbo@gmail.com", "hg242322@gmail.com"],
+        subject=subject,
+        plain_text_content=body,
+    )
+    try:
+        response = sg.send(message)
+        logging.basicConfig(
+            filename="app.log", format=u_format, level=logging.INFO)
+        logging.info(f"Email sent with status code {response.status_code}")
+        logging.debug(response.body)
+        logging.debug(response.headers)
+    except:
+        logging.basicConfig(
+            filename="app.log", format=u_format, level=logging.INFO)
+        logging.exception("Something went wrong")
+        exit(0)
+
+
 class EmailHandler(logging.StreamHandler):
 
     def emit(self, record):
+
         msg = self.format(record)
-        msg.replace("\n", "<br>")
-        sendEmail(subject="Logs from mb automation script", html=msg)
+        sendEmail(subject="Logs from mb automation script", body=msg)
 
 
 class MongoHandler(logging.StreamHandler):

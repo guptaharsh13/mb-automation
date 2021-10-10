@@ -75,12 +75,15 @@ def findNumbers(buttons):
         temp_c += 1
 
         if temp_c >= numButtons:
+
             driver.execute_script(
                 "window.scrollTo(0,document.body.scrollHeight)")
             logger.info("scroll: end of html document")
             time.sleep(10)
+
             temp = driver.find_elements_by_xpath(
                 "//button[@class='m-srp-card__btn m-srp-card__btn--primary-o get-phone-min-width']")
+
             logger.info(f"Number of buttons {numButtons}")
             logger.info(f"Number of buttons after scroll - {len(temp)}")
             if len(temp) == numButtons:

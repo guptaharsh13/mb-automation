@@ -17,10 +17,10 @@ automationLogger = configLogger(__name__)
 
 config = dotenv_values(".env")
 try:
+    python_env = config["python_env"]
     user_agent = config["user_agent"]
     magicbricks_url = config["magicbricks_url"]
     email_id = config["email_id"]
-    python_env = config["python_env"]
 except Exception as e:
     automationLogger.exception("Improperly Configured Environment")
     exit(0)
