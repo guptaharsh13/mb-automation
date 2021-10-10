@@ -30,6 +30,8 @@ def sendEmail(subject, html):
     )
     try:
         response = sg.send(message)
+        logging.basicConfig(
+            filename="app.log", format=u_format, level=logging.INFO)
         logging.info(f"Email sent with status code {response.status_code}")
         logging.debug(response.body)
         logging.debug(response.headers)
