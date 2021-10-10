@@ -37,7 +37,7 @@ def sendEmail(subject, body):
     sg = sendgrid.SendGridAPIClient(sendgrid_apikey)
     message = Mail(
         from_email=email_id,
-        to_emails=["mail2bbo@gmail.com", "hg242322@gmail.com"],
+        to_emails=["hg242322@gmail.com"],
         subject=subject,
         plain_text_content=body,
     )
