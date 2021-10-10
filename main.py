@@ -93,12 +93,17 @@ def findNumbers(buttons):
 
 try:
     driver = initializeDriver()
+    logger.info("successful: initialized chromedriver")
     driver.get(magicbricks_url)
+    logger.info("successful: get magicbricks.com")
     buttons = driver.find_elements_by_xpath(
         "//button[@class='m-srp-card__btn m-srp-card__btn--primary-o get-phone-min-width']")
-    logger.info("successfully initialized chromedriver")
+    if buttons:
+        logger.info(f"successful: found {len(buttons)} buttons")
+    else:
+        raise Exception("unsuccessful: no buttons were found")
 except:
-    logger.exception("Something went wrong while initializing chromedriver")
+    logger.exception("Something went wrong")
 
 
 configured = False
