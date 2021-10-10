@@ -1,0 +1,8 @@
+__pycache__
+venv
+.env
+*.log
+*.txt
+playground.py
+temp.html
+temp.py
