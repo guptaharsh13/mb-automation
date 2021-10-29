@@ -19,7 +19,7 @@ config = dotenv_values(".env")
 try:
     python_env = config["python_env"]
     user_agent = config["user_agent"]
-    magicbricks_url = config["magicbricks_url"]
+    mb_url = config["mb_url"]
     email_id = config["email_id"]
 except Exception as e:
     automationLogger.exception("Improperly Configured Environment")

@@ -16,7 +16,7 @@ logger = configLogger(__name__)
 config = dotenv_values(".env")
 try:
     mongodb_url = config["mongodb_url"]
-    magicbricks_url = config["magicbricks_url"]
+    mb_url = config["mb_url"]
 except Exception as e:
     logger.exception("Improperly Configured Environment")
     exit(0)
@@ -95,7 +95,7 @@ def setup():
     driver = initializeDriver()
     logger.info("successful: initialized chromedriver")
 
-    driver.get(magicbricks_url)
+    driver.get(mb_url)
     logger.info("successful: get magicbricks.com")
 
     buttons = driver.find_elements_by_xpath(
