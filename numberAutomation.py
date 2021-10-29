@@ -143,16 +143,17 @@ def ninetynineacres():
                 if prop_details and adv_details:
 
                     temp = adv_details.split()
-                    name = temp[0]
-                    adv_email = temp[1]
-                    number = temp[2]
+                    name = " ".join(temp[:len(temp)-2])
+                    adv_email = temp[-2]
+                    number = temp[-1]
 
                     data = f"{data}Property Details -<br>{prop_details}<br><br>Advertiser details -<br>Name - {name}<br>Email - {adv_email}<br>Number - {number}<br><br><br>"
 
                     nna_collection.insert_one(
                         {"Property Details": prop_details, "Advertiser details": {"name": name, "email": adv_email, "number": number}})
 
-    sendEmail("Numbers from 99accres.com", html=data)
+    # sendEmail("Numbers from 99accres.com", html=data)
+    print(data.replace("<br>", "\n"))
     numberLogger.info("Email send successful: Numbers from 99acres.com")
     imapper.quit()
 
